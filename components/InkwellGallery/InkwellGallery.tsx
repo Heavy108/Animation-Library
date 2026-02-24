@@ -186,7 +186,7 @@ export default function InkwellGallery() {
     const handleResize = () => {
       const vWidth = window.innerWidth;
       config.isMobile = vWidth < 1000;
-      let baseScale = vWidth < 768 ? 0.6 : vWidth < 1200 ? 0.8 : 1;
+      const baseScale = vWidth < 768 ? 0.6 : vWidth < 1200 ? 0.8 : 1;
       gsap.set(galleryContainer, { scale: baseScale });
     };
 
@@ -202,6 +202,7 @@ export default function InkwellGallery() {
       start: "top top",
       end: "+=800",
       pin: true,
+      pinSpacing: true,
       onEnter: () => {
         if (!isZoomedIn) {
           isZoomedIn = true;
