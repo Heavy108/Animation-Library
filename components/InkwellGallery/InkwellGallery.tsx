@@ -364,7 +364,7 @@ export default function InkwellGallery() {
 
   return (
     <div className={styles.wrapper}>
-      <section
+      {/* <section
         style={{
           height: "100vh",
           background: "#333",
@@ -375,7 +375,7 @@ export default function InkwellGallery() {
         }}
       >
         <h1>Scroll down to see the Gallery</h1>
-      </section>
+      </section> */}
 
       <div ref={containerRef} className={styles.container}>
         <div ref={galleryContainerRef} className={styles.galleryContainer}>
@@ -389,7 +389,7 @@ export default function InkwellGallery() {
         <div ref={titleContainerRef} className={styles.titleContainer}></div>
       </div>
 
-      <section
+      {/* <section
         style={{
           height: "100vh",
           background: "#222",
@@ -400,7 +400,7 @@ export default function InkwellGallery() {
         }}
       >
         <h1>Next Component</h1>
-      </section>
+      </section> */}
     </div>
   );
 }

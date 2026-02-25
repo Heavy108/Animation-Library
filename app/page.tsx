@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import Adaline from "@/components/Adaline/adaline";
 import InkwellGallery from "@/components/InkwellGallery/InkwellGallery";
+import Redo from "@/components/Redo/Redo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,6 +37,7 @@ export default function Home() {
   return (
     <>
       <Adaline />
+      <Redo/>
       <InkwellGallery />
     </>
   );
