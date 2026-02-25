@@ -1,0 +1,124 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* HERO / INTRO / OUTRO */
+
+.hero,
+.intro,
+.outro {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 2em;
+}
+
+.hero {
+  padding: 0;
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.intro,
+.outro {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.intro h1,
+.outro h1 {
+  font-size: 4rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+/* CARDS */
+
+.cards {
+  position: relative;
+}
+
+.card {
+  position: relative;
+  
+}
+
+.cardInner {
+  position: relative;
+  will-change: transform;
+  width: 100%;
+  height: 100%;
+  padding: 2em;
+  display: flex;
+  gap: 4em;
+}
+
+.cardContent {
+  flex: 3;
+}
+
+.cardContent p {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.cardImg {
+  flex: 1;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.75em;
+  overflow: hidden;
+}
+
+.cardImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Card Backgrounds */
+
+.card1 .cardInner {
+  background-color: #c3abff;
+}
+
+.card2 .cardInner {
+  background-color: #ffffff;
+}
+
+.card3 .cardInner {
+  background-color: #fed35b;
+}
+
+.card4 .cardInner {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .cardInner {
+    flex-direction: column;
+  }
+
+  .cardImg {
+    display: none;
+  }
+
+  .intro h1,
+  .outro h1 {
+    font-size: 2rem;
+  }
+
+  .cardContent p {
+    font-size: 1rem;
+  }
+}
