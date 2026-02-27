@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
 
-/* ── Page ── */
 .section {
   min-height: 100vh;
   background: linear-gradient(145deg, #e8eef5 0%, #dce6f0 40%, #e4edf5 100%);
@@ -10,171 +9,84 @@
   justify-content: center;
   font-family: 'DM Sans', sans-serif;
   padding: 2rem 1rem;
-  position: relative;
-  overflow: hidden;
 }
-.section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 80%, rgba(56,189,248,0.12) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(139,92,246,0.1) 0%, transparent 50%);
-  pointer-events: none;
-}
+
 .title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2rem, 5vw, 3rem);
   font-style: italic;
   color: #1e3a5f;
   margin-bottom: 0.5rem;
-  letter-spacing: -0.01em;
 }
+
 .subtitle {
   font-size: 0.875rem;
   color: #6b8cae;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 3rem;
-  font-weight: 300;
 }
 
-/* ── Grid — mirrors HoverCards row: full width, 1rem gap, 1rem side padding ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   width: 100%;
-  /* no max-width — fills the container just like HoverCards */
 }
 
 @media (max-width: 900px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 500px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
+  .grid { grid-template-columns: 1fr; }
 }
 
-/* ── Selection cards ── */
 .cardWrapper {
   perspective: 1000px;
   cursor: pointer;
-  min-width: 0;
 }
+
 .cardInner {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;          /* same as HoverCards */
-  transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s ease;
-  border-radius: 1rem;           /* matches HoverCards border-radius: 1rem */
+  aspect-ratio: 3 / 4;
+  border-radius: 1rem;
+  overflow: hidden;
 }
-.cardWrapper:hover .cardInner {
-  transform: translateY(-6px) rotateY(5deg);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.18);
-}
-.cardWrapper:active .cardInner { transform: scale(0.96); }
 
 .cardFront {
   position: absolute;
   inset: 0;
-  border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 1.25rem;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-}
-.cardFront::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.25) 100%);
-}
-.cardIcon {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -60%);
-  z-index: 1;
-  opacity: 0.7;
-}
-.cardLabel {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: white;
-  letter-spacing: 0.04em;
-  position: relative;
-  z-index: 1;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
-}
-.calm      { background: linear-gradient(135deg, #2dd4bf, #06b6d4); }
-.clarity   { background: linear-gradient(135deg, #22d3ee, #3b82f6); }
-.strength  { background: linear-gradient(135deg, #60a5fa, #6366f1); }
-.gratitude { background: linear-gradient(135deg, #818cf8, #a855f7); }
-
-.shimmer {
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%);
-  animation: shimmer 4s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes shimmer {
-  0%   { transform: translateX(-100%) translateY(-100%); }
-  100% { transform: translateX(100%) translateY(100%); }
 }
 
-/* ── Overlay ── */
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Modal */
+
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15,30,50,0.72);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  z-index: 50;
+  background: rgba(15,30,50,0.7);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  animation: fadeIn 0.35s ease forwards;
 }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* ── Modal card ── */
 .modalCard {
   width: min(400px, 88vw);
   aspect-ratio: 3 / 4;
   border-radius: 28px;
   position: relative;
   overflow: hidden;
+  background: white;
   box-shadow: 0 40px 80px rgba(0,0,0,0.5);
-  animation: cardReveal 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
-  cursor: crosshair;
-}
-@keyframes cardReveal {
-  from { opacity: 0; transform: scale(0.7) rotateY(90deg); }
-  to   { opacity: 1; transform: scale(1)   rotateY(0deg); }
 }
 
-/* gradient background — Layer 0 */
-.modalBg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.calmBg      { background: linear-gradient(145deg, #0f766e, #0e7490); }
-.clarityBg   { background: linear-gradient(145deg, #0891b2, #1d4ed8); }
-.strengthBg  { background: linear-gradient(145deg, #1d4ed8, #4338ca); }
-.gratitudeBg { background: linear-gradient(145deg, #4338ca, #7e22ce); }
-
-/* quote text — Layer 1 */
 .modalContent {
   position: absolute;
   inset: 0;
@@ -186,42 +98,33 @@
   padding: 3rem 2.5rem;
   text-align: center;
   gap: 1.25rem;
-  pointer-events: none;
 }
-.modalIcon {
-  opacity: 0.9;
-  animation: iconFloat 3s ease-in-out infinite;
-}
-@keyframes iconFloat {
-  0%,100% { transform: translateY(0); }
-  50%     { transform: translateY(-8px); }
-}
+
 .modalQuote {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.15rem, 3vw, 1.5rem);
+  font-size: 1.4rem;
   font-style: italic;
-  color: white;
-  line-height: 1.65;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  color: black;
 }
+
 .modalAuthor {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.75);
+  font-size: 0.75rem;
+  color: #444;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+
 .modalLabel {
+  position: absolute;
+  bottom: 2rem;
   font-family: 'Cormorant Garamond', serif;
   font-size: 1rem;
-  color: rgba(255,255,255,0.9);
+  color: #222;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 600;
-  position: absolute;
-  bottom: 2rem;
 }
 
-/* draw-to-reveal canvas — Layer 2 */
 .revealCanvas {
   position: absolute;
   inset: 0;
@@ -231,51 +134,27 @@
   touch-action: none;
 }
 
-/* hint label — Layer 3 */
-.hint {
-  position: absolute;
-  bottom: 4.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  white-space: nowrap;
-  pointer-events: none;
-  transition: opacity 0.6s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-.hint::before {
-  content: '✦';
-  font-size: 0.55rem;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
-.hintHidden { opacity: 0; }
-
-/* close button — Layer 4 */
 .closeBtn {
   position: absolute;
-  top: 1.25rem; right: 1.25rem;
-  width: 36px; height: 36px;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-  z-index: 4;
-  color: white;
-  font-size: 1rem;
-  backdrop-filter: blur(4px);
+  z-index: 3;
 }
-.closeBtn:hover {
-  background: rgba(255,255,255,0.35);
-  transform: rotate(90deg);
+.revealCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  transition: opacity 0.6s ease;
 }
