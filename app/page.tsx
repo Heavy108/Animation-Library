@@ -37,8 +37,12 @@ export default function Home() {
     <>
       <Adaline />
       <Redo/>
-      {/* <Serious/> */}
+      <Serious/>
       <InkwellGallery />
+      <div className="mt-20 h-100vh">
+<img src="/card_cover_1.jpg" alt="Hero Image" className="w-full h-auto object-cover" />
+
+      </div>
     </>
   );
 }

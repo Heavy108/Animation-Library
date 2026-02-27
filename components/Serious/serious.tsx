@@ -53,7 +53,7 @@ export default function Serious() {
   ];
 
   useGSAP(
-    () => {
+    (context) => {
       const cardsEl = gsap.utils.toArray(`.${styles.card}`);
 
       ScrollTrigger.create({
@@ -94,7 +94,7 @@ export default function Serious() {
       });
 
       return () => {
-        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+        return () => context.revert();
       };
     },
     { scope: container },
@@ -102,9 +102,9 @@ export default function Serious() {
 
  return (
    <div className={styles.wrapper} ref={container}>
-     <section className={styles.hero}>
+     {/* <section className={styles.hero}>
        <img src="/assets/hero.jpeg" alt="" />
-     </section>
+     </section> */}
 
      <section className={styles.intro}>
        <h1>
@@ -119,9 +119,9 @@ export default function Serious() {
        ))}
      </section>
 
-     {/* <section className={styles.outro}>
+     <section className={styles.outro}>
        <h1>Let’s build a brand that leaves a mark.</h1>
-     </section> */}
+     </section>
    </div>
  );
 }
