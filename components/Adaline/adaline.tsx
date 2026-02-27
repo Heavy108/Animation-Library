@@ -1,231 +1,204 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import Lenis from "lenis";
 import styles from "./adalin.module.css";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function Adaline() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const heroSectionRef = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
   const heroImgRef = useRef<HTMLDivElement | null>(null);
 
   const videoFramesRef = useRef<{ frame: number }>({ frame: 0 });
+  // const lenisRef = useRef(null);
 
-  useGSAP(
-    (context) => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
+  gsap.registerPlugin(ScrollTrigger);
 
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
+  /* ---------------- LENIS ---------------- */
 
-      /* ---------------- CANVAS SETUP ---------------- */
+  // useEffect(() => {
+  //   const lenis = new Lenis();
+  //   lenisRef.current = lenis;
 
-      const setCanvasSize = () => {
-        const pixelRatio = window.devicePixelRatio || 1;
+  //   lenis.on("scroll", ScrollTrigger.update);
 
-        canvas.width = window.innerWidth * pixelRatio;
-        canvas.height = window.innerHeight * pixelRatio;
-        canvas.style.width = `${window.innerWidth}px`;
-        canvas.style.height = `${window.innerHeight}px`;
+  //   gsap.ticker.add((time) => {
+  //     lenis.raf(time * 1000);
+  //   });
 
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.scale(pixelRatio, pixelRatio);
-      };
+  //   gsap.ticker.lagSmoothing(0);
 
-      setCanvasSize();
+  //   return () => {
+  //     lenis.destroy();
+  //   };
+  // }, []);
 
-      const frameCount = 207;
+  /* ---------------- GSAP ---------------- */
 
-      const currentFrame = (index: number): string =>
-        `/frames/frame_${(index + 1)
-          .toString()
-          .padStart(4, "0")}.jpg`;
+ useGSAP(
+   (context) => {
+     const canvas = canvasRef.current;
+     if (!canvas) return;
 
-      const images: HTMLImageElement[] = [];
-      let imagesLoaded = 0;
-      let scrollInitialized = false;
+     const ctx = canvas.getContext("2d");
+     if (!ctx) return;
 
-      /* ---------------- RENDER ---------------- */
+     contextRef.current = ctx;
 
-      const render = () => {
-        const canvasWidth = window.innerWidth;
-        const canvasHeight = window.innerHeight;
+     const setCanvasSize = (): void => {
+       const pixelRatio = window.devicePixelRatio || 1;
 
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+       canvas.width = window.innerWidth * pixelRatio;
+       canvas.height = window.innerHeight * pixelRatio;
+       canvas.style.width = `${window.innerWidth}px`;
+       canvas.style.height = `${window.innerHeight}px`;
 
-        const img = images[videoFramesRef.current.frame];
-        if (!img || !img.complete) return;
+       ctx.setTransform(1, 0, 0, 1, 0, 0);
+       ctx.scale(pixelRatio, pixelRatio);
+     };
 
-        const imageAspect =
-          img.naturalWidth / img.naturalHeight;
-        const canvasAspect =
-          canvasWidth / canvasHeight;
+     setCanvasSize();
 
-        let drawWidth: number;
-        let drawHeight: number;
-        let drawX: number;
-        let drawY: number;
+     const frameCount = 207;
 
-        if (imageAspect > canvasAspect) {
-          drawHeight = canvasHeight;
-          drawWidth = drawHeight * imageAspect;
-          drawX = (canvasWidth - drawWidth) / 2;
-          drawY = 0;
-        } else {
-          drawWidth = canvasWidth;
-          drawHeight = drawWidth / imageAspect;
-          drawX = 0;
-          drawY = (canvasHeight - drawHeight) / 2;
-        }
+     const currentFrame = (index: number): string =>
+       `/frames/frame_${(index + 1).toString().padStart(4, "0")}.jpg`;
 
-        ctx.drawImage(
-          img,
-          drawX,
-          drawY,
-          drawWidth,
-          drawHeight
-        );
-      };
+     const images: HTMLImageElement[] = [];
+     let imagesLoaded = 0;
 
-      /* ---------------- SCROLL TRIGGER ---------------- */
+     const onImageLoad = (): void => {
+       imagesLoaded++;
+       if (imagesLoaded === frameCount) {
+         render();
+         setupScrollTrigger();
+       }
+     };
 
-      const setupScrollTrigger = () => {
-        if (!heroSectionRef.current) return;
+     for (let i = 0; i < frameCount; i++) {
+       const img = new Image();
+       img.src = currentFrame(i);
+       img.onload = onImageLoad;
+       img.onerror = onImageLoad;
+       images.push(img);
+     }
 
-        ScrollTrigger.create({
-          trigger: heroSectionRef.current,
-          start: "top top",
-          end: `+=${window.innerHeight * 7}`,
-          pin: true,
-          pinSpacing: true,
-          scrub: 1,
-          refreshPriority: 1,
-          onUpdate: (self) => {
-            const progress = self.progress;
+     const render = (): void => {
+       const canvasWidth = window.innerWidth;
+       const canvasHeight = window.innerHeight;
 
-            const frameProgress = Math.min(
-              progress / 0.9,
-              1
-            );
+       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-            videoFramesRef.current.frame = Math.round(
-              frameProgress * (frameCount - 1)
-            );
+       const img = images[videoFramesRef.current.frame];
+       if (!img || !img.complete) return;
 
-            render();
+       const imageAspect = img.naturalWidth / img.naturalHeight;
+       const canvasAspect = canvasWidth / canvasHeight;
 
-            if (navRef.current) {
-              gsap.set(navRef.current, {
-                opacity:
-                  progress <= 0.1
-                    ? 1 - progress / 0.1
-                    : 0,
-              });
-            }
+       let drawWidth: number;
+       let drawHeight: number;
+       let drawX: number;
+       let drawY: number;
 
-            if (headerRef.current) {
-              if (progress <= 0.25) {
-                const translateZ =
-                  (progress / 0.25) * -500;
+       if (imageAspect > canvasAspect) {
+         drawHeight = canvasHeight;
+         drawWidth = drawHeight * imageAspect;
+         drawX = (canvasWidth - drawWidth) / 2;
+         drawY = 0;
+       } else {
+         drawWidth = canvasWidth;
+         drawHeight = drawWidth / imageAspect;
+         drawX = 0;
+         drawY = (canvasHeight - drawHeight) / 2;
+       }
 
-                const opacity =
-                  progress >= 0.2
-                    ? 1 - (progress - 0.2) / 0.05
-                    : 1;
+       ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+     };
 
-                gsap.set(headerRef.current, {
-                  transform: `translate(-50%, -50%) translateZ(${translateZ}px)`,
-                  opacity,
-                });
-              } else {
-                gsap.set(headerRef.current, {
-                  opacity: 0,
-                });
-              }
-            }
+     const setupScrollTrigger = (): void => {
+       if (!heroSectionRef.current) return;
 
-            if (heroImgRef.current) {
-              if (progress < 0.6) {
-                gsap.set(heroImgRef.current, {
-                  transform: "translateZ(1000px)",
-                  opacity: 0,
-                });
-              } else {
-                const imgProgress =
-                  (progress - 0.6) / 0.3;
+       ScrollTrigger.create({
+         trigger: heroSectionRef.current,
+         start: "top top",
+         end: `+=${window.innerHeight * 7}`,
+         pin: true,
+         pinSpacing: true,
+         scrub: 1,
+         refreshPriority: 1,
+         onUpdate: (self: ScrollTrigger) => {
+           const progress = self.progress;
 
-                const translateZ =
-                  1000 - imgProgress * 1000;
+           const frameProgress = Math.min(progress / 0.9, 1);
+           videoFramesRef.current.frame = Math.round(
+             frameProgress * (frameCount - 1),
+           );
 
-                gsap.set(heroImgRef.current, {
-                  transform: `translateZ(${translateZ}px)`,
-                  opacity: Math.min(
-                    imgProgress,
-                    1
-                  ),
-                });
-              }
-            }
-          },
-        });
+           render();
 
-        ScrollTrigger.refresh();
-      };
+           if (navRef.current) {
+             gsap.set(navRef.current, {
+               opacity: progress <= 0.1 ? 1 - progress / 0.1 : 0,
+             });
+           }
 
-      /* ---------------- LOAD IMAGES ---------------- */
+           if (headerRef.current) {
+             if (progress <= 0.25) {
+               const translateZ = (progress / 0.25) * -500;
+               const opacity =
+                 progress >= 0.2 ? 1 - (progress - 0.2) / 0.05 : 1;
 
-      for (let i = 0; i < frameCount; i++) {
-        const img = new Image();
-        img.src = currentFrame(i);
+               gsap.set(headerRef.current, {
+                 transform: `translate(-50%, -50%) translateZ(${translateZ}px)`,
+                 opacity,
+               });
+             } else {
+               gsap.set(headerRef.current, { opacity: 0 });
+             }
+           }
 
-        img.onload = () => {
-          imagesLoaded++;
+           if (heroImgRef.current) {
+             if (progress < 0.6) {
+               gsap.set(heroImgRef.current, {
+                 transform: "translateZ(1000px)",
+                 opacity: 0,
+               });
+             } else {
+               const imgProgress = (progress - 0.6) / 0.3;
+               const translateZ = 1000 - imgProgress * 1000;
 
-          // Render first frame immediately
-          if (i === 0) {
-            render();
-          }
+               gsap.set(heroImgRef.current, {
+                 transform: `translateZ(${translateZ}px)`,
+                 opacity: Math.min(imgProgress, 1),
+               });
+             }
+           }
+         },
+       });
+     };
 
-          // Initialize scroll after first few frames
-          if (!scrollInitialized && imagesLoaded > 5) {
-            scrollInitialized = true;
-            setupScrollTrigger();
-          }
-        };
+     const handleResize = (): void => {
+       setCanvasSize();
+       render();
+       ScrollTrigger.refresh();
+     };
 
-        images.push(img);
-      }
+     window.addEventListener("resize", handleResize);
 
-      /* ---------------- RESIZE ---------------- */
-
-      const handleResize = () => {
-        setCanvasSize();
-        render();
-        ScrollTrigger.refresh();
-      };
-
-      window.addEventListener("resize", handleResize);
-
-      /* ---------------- CLEANUP ---------------- */
-
-      return () => {
-        window.removeEventListener(
-          "resize",
-          handleResize
-        );
-        context.revert();
-      };
-    },
-    { scope: containerRef }
-  );
+     return () => {
+       window.removeEventListener("resize", handleResize);
+       context.revert(); // 🔥 IMPORTANT: only clean this scope
+     };
+   },
+   { scope: containerRef },
+ );
 
   return (
     <div ref={containerRef} className={styles.wrapper}>
@@ -243,85 +216,49 @@ export default function Adaline() {
         </div>
 
         <div className={styles.navButtons}>
-          <div
-            className={`${styles.btn} ${styles.primary}`}
-          >
+          <div className={`${styles.btn} ${styles.primary}`}>
             <a href="#">Live Demo</a>
           </div>
-          <div
-            className={`${styles.btn} ${styles.secondary}`}
-          >
+          <div className={`${styles.btn} ${styles.secondary}`}>
             <a href="#">Get Started</a>
           </div>
         </div>
       </nav>
 
-      <section
-        ref={heroSectionRef}
-        className={styles.section}
-      >
-        <canvas
-          ref={canvasRef}
-          className={styles.canvas}
-        />
+      <section ref={heroSectionRef} className={styles.section}>
+        <canvas ref={canvasRef} className={styles.canvas} />
 
         <div className={styles.heroContent}>
-          <div
-            className={styles.header}
-            ref={headerRef}
-          >
-            <h1>
-              One unified workspace to build, test,
-              and ship AI faster
-            </h1>
+          <div className={styles.header} ref={headerRef}>
+            <h1>One unified workspace to build, test, and ship AI faster</h1>
             <p>Trusted by</p>
 
             <div className={styles.clientLogos}>
               <div className={styles.clientLogo}>
-                <img
-                  src="/client-logo-1.png"
-                  alt=""
-                />
+                <img src="/client-logo-1.png" alt="" />
               </div>
               <div className={styles.clientLogo}>
-                <img
-                  src="/client-logo-2.png"
-                  alt=""
-                />
+                <img src="/client-logo-2.png" alt="" />
               </div>
               <div className={styles.clientLogo}>
-                <img
-                  src="/client-logo-3.png"
-                  alt=""
-                />
+                <img src="/client-logo-3.png" alt="" />
               </div>
               <div className={styles.clientLogo}>
-                <img
-                  src="/client-logo-4.png"
-                  alt=""
-                />
+                <img src="/client-logo-4.png" alt="" />
               </div>
             </div>
           </div>
         </div>
 
         <div className={styles.heroImgContainer}>
-          <div
-            className={styles.heroImg}
-            ref={heroImgRef}
-          >
-            <img
-              src="/dashboard.png"
-              alt=""
-            />
+          <div className={styles.heroImg} ref={heroImgRef}>
+            <img src="/dashboard.png" alt="" />
           </div>
         </div>
       </section>
 
       <section className={styles.outro}>
-        <h1>
-          Join teams building faster with Byewind.
-        </h1>
+        <h1>Join teams building faster with Byewind.</h1>
       </section>
     </div>
   );

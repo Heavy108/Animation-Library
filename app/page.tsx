@@ -8,6 +8,8 @@ import Adaline from "@/components/Adaline/adaline";
 import InkwellGallery from "@/components/InkwellGallery/InkwellGallery";
 import Redo from "@/components/Redo/Redo";
 import Serious from "@/components/Serious/serious";
+import MomentForYou from "@/components/Scratch/scratch";
+import HoverCards from "@/components/HoverCard/HoverCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,10 +41,12 @@ export default function Home() {
       <Redo/>
       <Serious/>
       <InkwellGallery />
-      <div className="mt-20 h-100vh">
+      {/* <div className="mt-20 h-100vh">
 <img src="/card_cover_1.jpg" alt="Hero Image" className="w-full h-auto object-cover" />
 
-      </div>
+      </div> */}
+      <MomentForYou/>
+      <HoverCards/>
     </>
   );
 }

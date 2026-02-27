@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap");
+
+.wrapper {
+  font-family: "Google Sans", sans-serif;
+
+  --hc-stroke-1: #e67339;
+  --hc-stroke-2: #a66363;
+  --hc-stroke-3: #eb3828;
+  --hc-stroke-4: #a6a09d;
+  --hc-stroke-base: #e0e0e0;
+  --hc-copy: #000;
+}
+
+.header,
+.footer {
+  width: 100%;
+  padding: 10rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.header h1,
+.footer h1 {
+  font-size: clamp(2.5rem, 4vw, 6rem);
+  font-weight: 500;
+  margin: 0;
+}
+
+.row {
+  width: 100%;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.cardContainer {
+  position: relative;
+  flex: 1;
+  aspect-ratio: 3 / 4;
+  border-radius: 1rem;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.cardImg,
+.cardImg img {
+  width: 100%;
+  height: 100%;
+}
+
+.cardImg img {
+  object-fit: cover;
+  display: block;
+}
+
+.svgStroke {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.5);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.svgStroke svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hcCard1 .svgStroke1 path { color: var(--hc-stroke-1); }
+.hcCard2 .svgStroke1 path { color: var(--hc-stroke-2); }
+.hcCard3 .svgStroke1 path { color: var(--hc-stroke-3); }
+.hcCard4 .svgStroke1 path { color: var(--hc-stroke-4); }
+
+.svgStroke2 path {
+  color: var(--hc-stroke-base);
+}
+
+.cardTitle {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--hc-copy);
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.cardTitle h3 {
+  font-size: clamp(1rem, 1.4vw, 1.75rem);
+  font-weight: 500;
+  margin: 0;
+}
+
+.word {
+  display: inline-block;
+  will-change: transform;
+}
+
+@media (max-width: 900px) {
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .cardContainer {
+    flex: 1 1 calc(50% - 0.5rem);
+    aspect-ratio: 1;
+  }
+}
+
+@media (max-width: 500px) {
+  .cardContainer {
+    flex: 1 1 100%;
+    aspect-ratio: 4 / 3;
+  }
+}
