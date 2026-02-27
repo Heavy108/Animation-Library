@@ -1,0 +1,147 @@
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.title {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 3rem;
+  color: #1b4d79;
+  margin-bottom: 50px;
+}
+
+/* ---------- 3D SCENE ---------- */
+.scene {
+  perspective: 4000px; /* High perspective drastically reduces edge distortion */
+  height: 584px; 
+  position: relative;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+}
+
+/* HALF DEPTH = 584 / 2 = 292px */
+.front {
+  transform: rotateX(0deg) translateZ(292px);
+}
+
+.top {
+  transform: rotateX(90deg) translateZ(292px);
+}
+
+.back {
+  transform: rotateX(180deg) translateZ(292px);
+}
+
+/* ---------- BENTO GRID ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 280px);
+  gap: 24px;
+  align-items: stretch;
+  height: 100%;
+  width: 100%;
+}
+
+.card {
+  border-radius: 24px;
+  overflow: hidden;
+  background-color: #f9fbff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CENTER TALL CARD */
+.center {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+/* LEFT COLUMN */
+.topLeft { grid-column: 1; grid-row: 1; }
+.bottomLeft { grid-column: 1; grid-row: 2; }
+
+/* RIGHT COLUMN */
+.topRight { grid-column: 3; grid-row: 1; }
+.bottomRight { grid-column: 3; grid-row: 2; }
+
+/* IMAGES */
+.imageCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* TEXT */
+.number {
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: #4c82c1;
+  margin-bottom: 8px;
+}
+
+.label {
+  font-size: 1.1rem;
+  color: #444;
+  font-weight: 400;
+  text-align: center;
+  padding: 0 10px;
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 900px) {
+  .scene {
+    height: auto;
+    perspective: none; 
+  }
+
+  .cube {
+    transform: none !important;
+    display: flex;
+    flex-direction: column;
+    gap: 60px; 
+  }
+
+  .face {
+    position: relative;
+    transform: none !important;
+    backface-visibility: visible;
+    height: auto;
+    opacity: 1 !important; /* Forces all faces to be visible on mobile */
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .card {
+    min-height: 250px;
+  }
+
+  .center {
+    grid-column: 1;
+    grid-row: auto;
+    height: 400px;
+  }
+}

@@ -11,6 +11,10 @@ import Serious from "@/components/Serious/serious";
 import MomentForYou from "@/components/Scratch/scratch";
 import HoverCards from "@/components/HoverCard/HoverCard";
 
+import BentoBox from "@/components/BentoBox/bentobox";
+import Stats from "@/components/stats/stats";
+// import BentoBox from "@/components/BentoBox/bentobox";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -37,14 +41,17 @@ export default function Home() {
 
   return (
     <>
-      {/* <Adaline />
-      <Redo/>
+      {/* <Adaline /> */}
+      {/* <Redo/>
       <Serious/>
       <InkwellGallery /> */}
       {/* <div className="mt-20 h-100vh">
 <img src="/card_cover_1.jpg" alt="Hero Image" className="w-full h-auto object-cover" />
 
       </div> */}
+      <Stats/>
+      {/* <BentoBox/> */}
+      {/* <BentoStack/> */}
       <MomentForYou/>
       <HoverCards/>
     </>
