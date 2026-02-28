@@ -13,6 +13,7 @@ import HoverCards from "@/components/HoverCard/HoverCard";
 
 import BentoBox from "@/components/BentoBox/bentobox";
 import Stats from "@/components/stats/stats";
+import BentoSlider from "@/components/BentoSlider/bentoslider";
 // import BentoBox from "@/components/BentoBox/bentobox";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -52,6 +53,7 @@ export default function Home() {
       <Stats/>
       {/* <BentoBox/> */}
       {/* <BentoStack/> */}
+      <BentoSlider/>
       <MomentForYou/>
       <HoverCards/>
     </>
