@@ -11,71 +11,96 @@ gsap.registerPlugin(ScrollTrigger);
 const BentoSlider = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-useGSAP(
-  () => {
-    const section = sectionRef.current;
-    if (!section) return;
+  useGSAP(
+    () => {
+      const section = sectionRef.current;
+      if (!section) return;
 
-    const mm = gsap.matchMedia();
+      const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 901px)", () => {
-      const slides = gsap.utils.toArray<HTMLElement>(`.${styles.slide}`);
+      mm.add("(min-width: 901px)", () => {
+        const slides = gsap.utils.toArray<HTMLElement>(`.${styles.slide}`);
 
-      // INITIAL STATE: Hide all slides except the first one
-      gsap.set(slides, { yPercent: 105, opacity: 0 });
-      gsap.set(slides[0], { yPercent: 0, opacity: 1 });
+        // INITIAL STATE
+        gsap.set(slides, { yPercent: 105, opacity: 0 });
+        gsap.set(slides[0], { yPercent: 0, opacity: 1 });
 
-      let currentIndex = 0;
+        let currentIndex = 0;
+        let targetIndex = 0;
+        let isAnimating = false;
 
-      ScrollTrigger.create({
-        trigger: section,
-        start: "center center",
-        end: "+=1200", // Total scroll distance to pin the section
-        pin: true,
-        onUpdate: (self) => {
-          // 1. Divide the scroll space into 3 invisible zones
-          let newIndex = 0;
-          if (self.progress < 0.33) newIndex = 0;
-          else if (self.progress < 0.66) newIndex = 1;
-          else newIndex = 2;
-
-          // 2. Only trigger the animation if the user crosses into a NEW zone
-          if (newIndex !== currentIndex) {
-            // Figure out if we are scrolling down (1) or up (-1)
-            const direction = newIndex > currentIndex ? 1 : -1;
-
-            // A. Animate the OUTGOING slide away
-            gsap.to(slides[currentIndex], {
-              yPercent: -105 * direction, // If scrolling down, pushes up. If scrolling up, pushes down.
-              opacity: 0,
-              duration: 0.6,
-              ease: "power2.inOut",
-            });
-
-            // B. Instantly move the INCOMING slide to its starting position (above or below)
-            gsap.set(slides[newIndex], {
-              yPercent: 105 * direction,
-            });
-
-            // C. Animate the INCOMING slide exactly into the center
-            gsap.to(slides[newIndex], {
-              yPercent: 0,
-              opacity: 1,
-              duration: 0.6,
-              ease: "power2.inOut",
-            });
-
-            // Update the tracker
-            currentIndex = newIndex;
+        // This function forces the slides to transition sequentially
+        const playNextSequence = () => {
+          if (currentIndex === targetIndex) {
+            isAnimating = false;
+            return;
           }
-        },
-      });
-    });
 
-    return () => mm.revert();
-  },
-  { scope: sectionRef },
-);
+          isAnimating = true;
+
+          // Figure out direction towards the target
+          const direction = targetIndex > currentIndex ? 1 : -1;
+          const nextIndex = currentIndex + direction;
+
+          // If we are skipping multiple slides, speed up the animation slightly so it catches up faster
+          const distance = Math.abs(targetIndex - currentIndex);
+          const animDuration = distance > 1 ? 0.3 : 0.6;
+
+          // A. Animate the OUTGOING slide away
+          gsap.to(slides[currentIndex], {
+            yPercent: -105 * direction,
+            opacity: 0,
+            duration: animDuration,
+            ease: "power2.inOut",
+          });
+
+          // B. Instantly move the INCOMING slide to its starting position
+          gsap.set(slides[nextIndex], {
+            yPercent: 105 * direction,
+          });
+
+          // C. Animate the INCOMING slide into the center
+          gsap.to(slides[nextIndex], {
+            yPercent: 0,
+            opacity: 1,
+            duration: animDuration,
+            ease: "power2.inOut",
+            onComplete: () => {
+              currentIndex = nextIndex;
+              playNextSequence(); // Loop again until currentIndex catches up to targetIndex
+            },
+          });
+        };
+
+        ScrollTrigger.create({
+          trigger: section,
+          start: "center center",
+          end: "+=2000",
+          pin: true,
+          onUpdate: (self) => {
+            // 1. Divide the scroll space into 3 invisible zones
+            let newIndex = 0;
+            if (self.progress < 0.33) newIndex = 0;
+            else if (self.progress < 0.66) newIndex = 1;
+            else newIndex = 2;
+
+            // 2. Only trigger if the user crossed into a new zone
+            if (newIndex !== targetIndex) {
+              targetIndex = newIndex; // Update where we want to go
+
+              // If it's not currently animating, kick off the sequence
+              if (!isAnimating) {
+                playNextSequence();
+              }
+            }
+          },
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
 
   return (
     <section className={styles.container} ref={sectionRef}>
