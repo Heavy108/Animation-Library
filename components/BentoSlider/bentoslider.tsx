@@ -16,52 +16,59 @@ useGSAP(
     const section = sectionRef.current;
     if (!section) return;
 
-    let mm = gsap.matchMedia();
+    const mm = gsap.matchMedia();
 
     mm.add("(min-width: 901px)", () => {
       const slides = gsap.utils.toArray<HTMLElement>(`.${styles.slide}`);
 
-      // INITIAL STATE:
-      // Start further down (120%) to create a 20% gap between slides.
-      // Start completely transparent (opacity: 0) for the fade-in effect.
-      gsap.set(slides.slice(1), { yPercent: 120, opacity: 0 });
+      // INITIAL STATE: Hide all slides except the first one
+      gsap.set(slides, { yPercent: 105, opacity: 0 });
+      gsap.set(slides[0], { yPercent: 0, opacity: 1 });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "center center",
-          end: "+=1000", // Slightly longer scroll distance for the fades
-          pin: true,
-          scrub: 1,
-          snap: 1 / (slides.length - 1),
+      let currentIndex = 0;
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "center center",
+        end: "+=1200", // Total scroll distance to pin the section
+        pin: true,
+        onUpdate: (self) => {
+          // 1. Divide the scroll space into 3 invisible zones
+          let newIndex = 0;
+          if (self.progress < 0.33) newIndex = 0;
+          else if (self.progress < 0.66) newIndex = 1;
+          else newIndex = 2;
+
+          // 2. Only trigger the animation if the user crosses into a NEW zone
+          if (newIndex !== currentIndex) {
+            // Figure out if we are scrolling down (1) or up (-1)
+            const direction = newIndex > currentIndex ? 1 : -1;
+
+            // A. Animate the OUTGOING slide away
+            gsap.to(slides[currentIndex], {
+              yPercent: -105 * direction, // If scrolling down, pushes up. If scrolling up, pushes down.
+              opacity: 0,
+              duration: 0.6,
+              ease: "power2.inOut",
+            });
+
+            // B. Instantly move the INCOMING slide to its starting position (above or below)
+            gsap.set(slides[newIndex], {
+              yPercent: 105 * direction,
+            });
+
+            // C. Animate the INCOMING slide exactly into the center
+            gsap.to(slides[newIndex], {
+              yPercent: 0,
+              opacity: 1,
+              duration: 0.6,
+              ease: "power2.inOut",
+            });
+
+            // Update the tracker
+            currentIndex = newIndex;
+          }
         },
-      });
-
-      slides.forEach((slide, i) => {
-        if (i === 0) return;
-        const label = `step${i}`;
-
-        // 1. OUTGOING SLIDE: Pushed further up (-120%) and fades out
-        tl.to(
-          slides[i - 1],
-          {
-            yPercent: -120,
-            opacity: 0,
-            ease: "none",
-          },
-          label,
-        );
-
-        // 2. INCOMING SLIDE: Pulled up into view (0%) and fades in
-        tl.to(
-          slide,
-          {
-            yPercent: 0,
-            opacity: 1,
-            ease: "none",
-          },
-          label,
-        );
       });
     });
 

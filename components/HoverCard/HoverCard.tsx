@@ -3,17 +3,40 @@
 import { useEffect, useRef } from "react";
 import styles from "./HOverCard.module.css";
 
+// 1. Updated interface to use quote and author
 interface CardData {
   id: string;
-  title: string;
+  quote: string;
+  author: string;
   img: string;
 }
 
+// 2. Updated the dummy data with quotes and authors
 const CARDS: CardData[] = [
-  { id: "1", title: "Synthetic Silhouette", img: "/img1.jpeg" },
-  { id: "2", title: "Red Form Study", img: "/img2.jpeg" },
-  { id: "3", title: "Material Pause", img: "/img3.jpeg" },
-  { id: "4", title: "Obscured Profile", img: "/img4.jpeg" },
+  {
+    id: "1",
+    quote: "Design is intelligence made visible.",
+    author: "Alina Wheeler",
+    img: "/img1.jpeg",
+  },
+  {
+    id: "2",
+    quote: "Simplicity is the ultimate sophistication.",
+    author: "Leonardo da Vinci",
+    img: "/img2.jpeg",
+  },
+  {
+    id: "3",
+    quote: "Make it simple, but significant.",
+    author: "Don Draper",
+    img: "/img3.jpeg",
+  },
+  {
+    id: "4",
+    quote: "Details are not the details. They make the design.",
+    author: "Charles Eames",
+    img: "/img4.jpeg",
+  },
 ];
 
 const SVG_STROKE_1 = (
@@ -57,6 +80,7 @@ function Card({ card, index }: { card: CardData; index: number }) {
         `.${styles.svgStroke} path`,
       );
 
+      // The GSAP selector stays exactly the same, grabbing the h3
       const cardTitle = container.querySelector<HTMLElement>(
         `.${styles.cardTitle} h3`,
       );
@@ -151,7 +175,7 @@ function Card({ card, index }: { card: CardData; index: number }) {
       className={`${styles.cardContainer} ${styles[`hcCard${index + 1}`]}`}
     >
       <div className={styles.cardImg}>
-        <img src={card.img} alt={card.title} />
+        <img src={card.img} alt={card.author} />
       </div>
 
       <div className={`${styles.svgStroke} ${styles.svgStroke1}`}>
@@ -162,8 +186,15 @@ function Card({ card, index }: { card: CardData; index: number }) {
         {SVG_STROKE_2}
       </div>
 
+      {/* 3. Updated the render output. We keep it inside the h3 so SplitText grabs it all */}
       <div className={styles.cardTitle}>
-        <h3>{card.title}</h3>
+        <h3>
+          {card.quote}
+          <br />
+          <span style={{ fontSize: "0.7em", opacity: 0.8 }}>
+            — {card.author}
+          </span>
+        </h3>
       </div>
     </div>
   );
