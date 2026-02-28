@@ -11,64 +11,64 @@ gsap.registerPlugin(ScrollTrigger);
 const BentoSlider = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
-      const section = sectionRef.current;
-      if (!section) return;
+useGSAP(
+  () => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-      const mm = gsap.matchMedia();
+    let mm = gsap.matchMedia();
 
-      mm.add("(min-width: 901px)", () => {
-        const slides = gsap.utils.toArray<HTMLElement>(`.${styles.slide}`);
+    mm.add("(min-width: 901px)", () => {
+      const slides = gsap.utils.toArray<HTMLElement>(`.${styles.slide}`);
 
-        // INITIAL STATE: Next slides start below. We don't need them to be transparent
-        // initially if they are sliding up from out of frame.
-        gsap.set(slides.slice(1), { yPercent: 100 });
+      // INITIAL STATE:
+      // Start further down (120%) to create a 20% gap between slides.
+      // Start completely transparent (opacity: 0) for the fade-in effect.
+      gsap.set(slides.slice(1), { yPercent: 120, opacity: 0 });
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "center center",
-            end: "+=2000",
-            pin: true,
-            scrub: 1,
-          },
-        });
-
-        slides.forEach((slide, i) => {
-          if (i === 0) return;
-          const label = `step${i}`;
-
-          // 1. OUTGOING SLIDE: Fades out completely in HALF the time (duration: 0.5)
-          tl.to(
-            slides[i - 1],
-            {
-              yPercent: -30, // Push it up slightly further
-              scale: 0.85, // Shrink it a bit more to get out of the way
-              opacity: 0,
-              duration: 0.5, // Fades out twice as fast as the new one comes in!
-              ease: "power2.inOut",
-            },
-            label,
-          );
-
-          // 2. INCOMING SLIDE: Takes the full duration (1.0) to slide up into place
-          tl.to(
-            slide,
-            {
-              yPercent: 0,
-              duration: 1,
-              ease: "power2.out",
-            },
-            label, // Starts at the exact same time as the outgoing slide
-          );
-        });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "center center",
+          end: "+=1000", // Slightly longer scroll distance for the fades
+          pin: true,
+          scrub: 1,
+          snap: 1 / (slides.length - 1),
+        },
       });
 
-      return () => mm.revert();
-    },
-    { scope: sectionRef },
-  );
+      slides.forEach((slide, i) => {
+        if (i === 0) return;
+        const label = `step${i}`;
+
+        // 1. OUTGOING SLIDE: Pushed further up (-120%) and fades out
+        tl.to(
+          slides[i - 1],
+          {
+            yPercent: -120,
+            opacity: 0,
+            ease: "none",
+          },
+          label,
+        );
+
+        // 2. INCOMING SLIDE: Pulled up into view (0%) and fades in
+        tl.to(
+          slide,
+          {
+            yPercent: 0,
+            opacity: 1,
+            ease: "none",
+          },
+          label,
+        );
+      });
+    });
+
+    return () => mm.revert();
+  },
+  { scope: sectionRef },
+);
 
   return (
     <section className={styles.container} ref={sectionRef}>
