@@ -50,7 +50,7 @@ export default function Home() {
 <img src="/card_cover_1.jpg" alt="Hero Image" className="w-full h-auto object-cover" />
 
       </div> */}
-      <Stats/>
+      {/* <Stats/> */}
       {/* <BentoBox/> */}
       {/* <BentoStack/> */}
       <BentoSlider/>
