@@ -1,0 +1,164 @@
+.scrollArea {
+  position: relative;
+  height: 400vh; /* Determines how long the scroll lasts */
+  background-color: #F6F4F0;
+}
+
+.stickyContainer {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.layoutGrid {
+  display: grid;
+  grid-template-columns: auto 400px;
+  gap: 80px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Left Side: Circular System --- */
+.circleSystem {
+  position: relative;
+  width: 550px;
+  height: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The visible line around the left half */
+.arcLine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px; /* Radius = 250px (determines dot placement) */
+  height: 500px;
+  transform: translate(-50%, -50%);
+  border: 1px solid #dcbfa6; /* Adjust color to match your design */
+  border-radius: 50%;
+  /* This completely hides the right half of the circle's border */
+  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+  z-index: 1;
+}
+
+/* Center Images */
+.imageCenter {
+  position: relative;
+  width: 400px; /* Smaller than the arcLine so it fits inside */
+  height: 400px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.1);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.imageWrapper.active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 3;
+}
+
+.image {
+  object-fit: cover;
+}
+
+/* --- The Dots & Years --- */
+.dotContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  /* The transform is applied inline via React to position it on the arc */
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #dcbfa6;
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dotContainer.active .dot {
+  background-color: #a87b51;
+  transform: translate(-50%, -50%) scale(1.2);
+  /* Creates the outer ring effect seen in the screenshot */
+  box-shadow: 0 0 0 4px #F6F4F0, 0 0 0 5px #a87b51;
+}
+
+.label {
+  position: absolute;
+  right: 15px; /* Spaces text away from the dot */
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 18px;
+  color: #a0a0a0;
+  transition: all 0.4s ease;
+  text-align: right;
+}
+
+.dotContainer.active .label {
+  font-size: 26px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* --- Right Side: Changing Text --- */
+.textContent {
+  position: relative;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.textWrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(calc(-50% + 20px));
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+
+.textWrapper.active {
+  opacity: 1;
+  transform: translateY(-50%);
+  pointer-events: auto;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 16px;
+}
+
+.description {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #555;
+}
