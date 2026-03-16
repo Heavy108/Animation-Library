@@ -1,0 +1,262 @@
+/* calender.module.css */
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* =========================================
+   VIEW TOGGLING LOGIC
+   ========================================= */
+/* By default (Mobile), show mobile view and hide desktop view */
+.mobileView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+}
+
+.desktopView {
+  display: none;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* =========================================
+   MOBILE CSS (Your existing CSS)
+   ========================================= */
+.calendarCard {
+  background: white;
+  border-radius: 1.5rem;
+  border: 1px solid #81CEF6;
+  padding: 1.5rem;
+  box-shadow: 8px 8px 28px 0 rgba(6, 145, 173, 0.16);
+  width: 100%;
+  max-width: 400px;
+}
+
+.monthHeader {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+
+.monthHeader h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.dayName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #666;
+  padding-bottom: 0.5rem;
+}
+
+.dayCell {
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 0;
+}
+
+.dayCell:hover {
+  background: #f0f8fb;
+}
+
+.dayNumber {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.selectedDay {
+  background: #2aad8f;
+  color: white;
+  box-shadow: 0 4px 10px rgba(42, 173, 143, 0.3);
+}
+
+.selectedDay .dayNumber {
+  color: white;
+}
+
+.dotsContainer {
+  display: flex;
+  gap: 3px;
+  position: absolute;
+  bottom: 10%;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #00AC8C;
+}
+
+.selectedDay .dot {
+  background-color: white;
+}
+
+.eventsArea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.eventsAreaTitle {
+  font-size: 1.25rem;
+  color: #1a1a1a;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.noEvents {
+  padding: 2rem;
+  background: white;
+  border-radius: 1rem;
+  border: 1px dashed #81CEF6;
+  color: #666;
+  text-align: center;
+  width: 100%;
+}
+
+
+/* =========================================
+   DESKTOP CSS (The New Large Grid)
+   ========================================= */
+
+.desktopCalendarCard {
+  background: white;
+  border-radius: 1.5rem;
+  border: 1px solid #81CEF6;
+  padding: 2rem;
+  box-shadow: 8px 8px 28px 0 rgba(6, 145, 173, 0.16);
+}
+
+.desktopGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px; /* Creates the grid line effect */
+  background-color: #e8f4f8; /* Border color between cells */
+  border: 1px solid #e8f4f8;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.desktopDayName {
+  background-color: white;
+  font-weight: 600;
+  color: #2aad8f;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.desktopDayCell {
+  background-color: white;
+  min-height: 140px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.desktopDayNumber {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #666;
+  align-self: flex-end; /* Puts the number in the top right */
+}
+
+.desktopEventList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  max-height: 100px; /* Prevents cell from stretching too much */
+}
+
+/* Scrollbar styling for cells with many events */
+.desktopEventList::-webkit-scrollbar {
+  width: 4px;
+}
+.desktopEventList::-webkit-scrollbar-thumb {
+  background: #c2d8e2;
+  border-radius: 4px;
+}
+
+.eventPill {
+  background: #f0f8fb;
+  border-left: 3px solid #2aad8f;
+  padding: 4px 6px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.eventPill:hover {
+  background: #e8f4f8;
+}
+
+.pillTime {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #2aad8f;
+}
+
+.pillTitle {
+  font-size: 0.75rem;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
+
+@media only screen and (min-width: 768px) {
+  /* On tablets, you might still want mobile master-detail but with 2 card columns */
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  /* Hide the Mobile View completely */
+  .mobileView {
+    display: none;
+  }
+  
+  /* Show the Desktop Large Calendar View */
+  .desktopView {
+    display: block;
+  }
+}

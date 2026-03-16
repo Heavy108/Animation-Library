@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
 
 .container {
   --bg: #0f0f0f;
@@ -175,7 +174,45 @@
     margin: 0 auto;
     border-radius: 20px !important;
   }
+.cardBack {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+}
+
+.backContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  gap: 16px;
+  padding: 20px;
+}
+
+.backImage {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.introduction h5 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.introduction p {
+  font-size: 14px;
+  opacity: 0.8;
+  max-width: 240px;
+}
   :global(#card-1),
   :global(#card-2),
   :global(#card-3),

@@ -1,25 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
-import Adaline from "@/components/Adaline/adaline";
-import InkwellGallery from "@/components/InkwellGallery/InkwellGallery";
-import Redo from "@/components/Redo/Redo";
-import Serious from "@/components/Serious/serious";
-import MomentForYou from "@/components/Scratch/scratch";
-import HoverCards from "@/components/HoverCard/HoverCard";
+import React, { useState } from "react";
+import WhatsHappeningCard from "@/components/EventCarousel/whatsHappeningCard";
+import CalendarView from "@/components/EventCarousel/calender"; // We will create this next
+import styles from "@/components/EventCarousel/event.module.css";
 
-import BentoBox from "@/components/BentoBox/bentobox";
-import Stats from "@/components/stats/stats";
-import BentoSlider from "@/components/BentoSlider/bentoslider";
-import Timeline from "@/components/Timeline/timeline";
-import { Globe } from "@/components/ui/globe";
-import WhatsHappeningCarousel from "@/components/EventCarousel/whatsHappening";
-// import BentoBox from "@/components/BentoBox/bentobox";
-
-gsap.registerPlugin(ScrollTrigger);
 const eventsData = [
   {
     id: 1,
@@ -102,49 +87,43 @@ const eventsData = [
     location: "NJ Center",
   },
 ];
-export default function Home() {
-  useEffect(() => {
-    const lenis = new Lenis();
 
-    lenis.on("scroll", ScrollTrigger.update);
-
-    const ticker = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(ticker);
-    gsap.ticker.lagSmoothing(0);
-
-   
-    const id = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 300);
-
-    return () => {
-      clearTimeout(id);
-      lenis.destroy();
-      gsap.ticker.remove(ticker); 
-    };
-  }, []);
+export default function AllEventsPage() {
+  const [view, setView] = useState<"grid" | "calendar">("grid");
 
   return (
-    <>
-      {/* <Adaline /> */}
-      {/* 
-      <Serious/>
-       */}
-      {/* <div className="mt-20 h-100vh">
-<img src="/card_cover_1.jpg" alt="Hero Image" className="w-full h-auto object-cover" />
+    <main className={styles.pageContainer}>
+      <header className={styles.header}>
+        <h1>All Events</h1>
 
-      </div> */}
-      {/* <Stats/> */}
-      {/* <BentoBox/> */}
-      {/* <BentoStack/> */}
-      {/* <WhatsHappeningCarousel slides={eventsData}/> */}
-      {/* <Redo /> */}
-      {/* <InkwellGallery /> */}
-      <Globe />
-      <Timeline />
-      <BentoSlider />
-      <MomentForYou />
-      <HoverCards />
-    </>
+        {/* View Toggle */}
+        <div className={styles.toggleContainer}>
+          <button
+            className={view === "grid" ? styles.activeTab : ""}
+            onClick={() => setView("grid")}
+          >
+            Grid View
+          </button>
+          <button
+            className={view === "calendar" ? styles.activeTab : ""}
+            onClick={() => setView("calendar")}
+          >
+            Calendar View
+          </button>
+        </div>
+      </header>
+
+      <section className={styles.content}>
+        {view === "grid" ? (
+          <div className={styles.eventGrid}>
+            {eventsData.map((event) => (
+              <WhatsHappeningCard key={event.id} {...event} />
+            ))}
+          </div>
+        ) : (
+          <CalendarView events={eventsData} />
+        )}
+      </section>
+    </main>
   );
 }

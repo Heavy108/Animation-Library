@@ -1,0 +1,120 @@
+/* allEvents.module.css */
+
+.pageContainer {
+  width: 100%;
+  padding: 3rem 1.5rem;
+  background: linear-gradient(180deg, #e8f4f8 0%, #f0f8fb 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.header h1 {
+  font-size: 2rem;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* Toggle Switch Container */
+.toggleContainer {
+  display: flex;
+  background-color: #ffffff;
+  border: 1px solid #81CEF6;
+  border-radius: 2rem;
+  padding: 0.25rem;
+  box-shadow: 4px 4px 16px 0 rgba(6, 145, 173, 0.08);
+}
+
+/* Toggle Buttons */
+.toggleContainer button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  border-radius: 1.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.toggleContainer button:hover {
+  color: #2aad8f;
+}
+
+/* Active State for Toggle */
+.toggleContainer .activeTab {
+  background-color: #2aad8f;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(42, 173, 143, 0.3);
+}
+
+.toggleContainer .activeTab:hover {
+  color: #ffffff;
+}
+
+/* Content Area */
+.content {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Grid Layout for the Cards */
+.eventGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  width: 100%;
+  justify-items: center;
+}
+
+/* Responsiveness - matching your existing breakpoints */
+@media only screen and (min-width: 768px) {
+  .pageContainer {
+    padding: 4rem 3rem;
+    gap: 2.5rem;
+  }
+  
+  .eventGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .pageContainer {
+    padding: 5rem 5rem;
+  }
+
+  .eventGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .pageContainer {
+    padding: 7.5rem 7.5rem;
+    gap: 3rem;
+  }
+
+  .eventGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+  }
+}

@@ -1,0 +1,75 @@
+.EventCard {
+  padding: 0.75rem;
+  width: 17.5rem;
+  border-radius: 1rem;
+ border-radius: 1.5rem;
+border: 1px solid #81CEF6;
+background: linear-gradient(0deg, #FFF 0%, #FFF 100%), linear-gradient(282deg, rgba(255, 255, 255, 0.75) 0%, #FFF 100%);
+
+/* Card Shadow */
+box-shadow: 8px 8px 28px 0 rgba(6, 145, 173, 0.16);
+}
+.potrait img {
+  width: 16rem;
+  height: 15rem;
+  border-radius: 0.5rem;
+  aspect-ratio: 5/4;
+}
+.introduction {
+  padding: 0.5rem;
+}
+.tags {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.5rem 0rem 1rem 0rem;
+}
+.tags p {
+  padding: 0.5rem 0.75rem;
+  border-radius: 1.25rem;
+}
+.tags p:first-child {
+  background: var(--Tags-Violet-Tag-BG);
+}
+.tags p:last-child {
+  background: var(--Tags-Blue-Tag-1-BG);
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+.infodetail {
+  display: flex;
+  gap: 0.25rem;
+}
+.introduction h1 {
+  white-space: nowrap;      /* keep text in one line */
+  overflow: hidden;         /* hide extra text */
+  text-overflow: ellipsis;  /* show ... */
+}
+
+@media only screen and (min-width:768px){
+  .EventCard{
+    width: 20rem;
+    padding: 1rem;
+  }
+  .potrait img{
+    width: 18rem;
+  }
+}
+@media only screen and (min-width:1024px){
+    .EventCard{
+        width: 20rem;
+    }
+   
+}
+@media only screen and (min-width:1440px){
+   
+    .tags p{
+        padding: 0.5rem 0.75rem;
+    }
+ 
+    .tags{
+  margin: 0.75rem 0rem 1rem 0rem;
+
+    }
+}

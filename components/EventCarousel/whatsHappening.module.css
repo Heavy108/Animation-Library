@@ -1,0 +1,130 @@
+.section {
+  position: relative;
+  width: 100%;
+  /* padding: 60px 0 48px; */
+  padding: 3rem 0rem;
+  background: linear-gradient(180deg, #e8f4f8 0%, #f0f8fb 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.header {
+  text-align: center;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.viewport {
+  overflow: hidden;
+  width: 100%;
+  padding-left: 1.5rem;
+  box-sizing: border-box;
+
+  cursor: grab;
+}
+
+.viewport:active {
+  cursor: grabbing;
+}
+
+.container {
+  display: flex;
+  gap: 1rem;
+
+  /* Prevent text selection while dragging */
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform;
+}
+
+.slide {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+/* .progressNav {
+  display: none;
+} */
+  .progressNav {
+    display: flex;
+    align-items: center;
+    
+  }
+  
+  .segment {
+    height: 4px;
+    width: 1.5rem;
+    /* border-radius: 100px; */
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    background-color: #c2d8e2;
+    transition:
+      background-color 0.25s ease,
+      width 0.25s ease,
+      transform 0.15s ease;
+    outline: none;
+  }
+
+ 
+
+  .segmentActive {
+    background-color: #2aad8f;
+    width: 1.25rem;
+    border-radius: 1.25rem;
+  }
+
+  .blur{
+    position: absolute;
+    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  top: 0;
+  }
+  .blur > :first-child{
+    transform: scaleX(-1);
+  }
+@media only screen and (min-width:768px){
+  .container{
+    height: 28rem;
+  }
+    .viewport{
+        padding-left: 3rem;
+    }
+    .segment{
+        width: 2.5rem;
+    }
+    .segmentActive{
+        width: 2.5rem;
+    }
+    .section{
+gap: 2.5rem;
+padding: 4rem 0rem;
+    }
+}
+@media only screen and (min-width: 1024px) {
+ .viewport{
+        padding-left: 5rem;
+    }
+    .section{
+        padding: 5rem 0rem;
+    }
+
+}
+@media only screen and (min-width:1440px){
+    .viewport{
+        padding-left: 7.5rem;
+    }
+    .section{
+        gap: 3rem;
+  padding: 7.5rem 0rem;
+
+    }
+    .container{
+        gap: 1.5rem;
+    }
+}
