@@ -17,6 +17,11 @@ import BentoSlider from "@/components/BentoSlider/bentoslider";
 import Timeline from "@/components/Timeline/timeline";
 import { Globe } from "@/components/ui/globe";
 import WhatsHappeningCarousel from "@/components/EventCarousel/whatsHappening";
+import DefaultDemo from "@/components/Parralax/zoom";
+import { PortfolioGallery } from "@/components/portfolio-gallery";
+import Example from "@/components/image-gallery";
+import InteractiveImageBentoGallery from "@/components/bento-gallery";
+import InteractiveImageBentoGalleryDemo from "@/components/Parralax/bento";
 // import BentoBox from "@/components/BentoBox/bentobox";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -134,17 +139,21 @@ export default function Home() {
 <img src="/card_cover_1.jpg" alt="Hero Image" className="w-full h-auto object-cover" />
 
       </div> */}
-      {/* <Stats/> */}
+      {/* <Stats/>
+      <DefaultDemo/> */}
+      <PortfolioGallery/>
+      <Example/>
+      <InteractiveImageBentoGalleryDemo/>
       {/* <BentoBox/> */}
       {/* <BentoStack/> */}
       {/* <WhatsHappeningCarousel slides={eventsData}/> */}
-      {/* <Redo /> */}
-      {/* <InkwellGallery /> */}
-      <Globe />
-      <Timeline />
-      <BentoSlider />
+      {/* <Redo />
+      <InkwellGallery /> */}
+      {/* <Globe />
+      <Timeline /> */}
+      {/* <BentoSlider />
       <MomentForYou />
-      <HoverCards />
+      <HoverCards /> */}
     </>
   );
 }

@@ -44,8 +44,8 @@ export default function InkwellGallery() {
       const transformState: TransformState[] = [];
 
       const config = {
-        imageCount: 25,
-        radius: 275,
+        imageCount: 20,
+        radius: 255,
         autoRotateSpeed: 0.1,
         sensitivity: 500,
         effectFalloff: 250,
