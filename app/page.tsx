@@ -139,10 +139,10 @@ export default function Home() {
 <img src="/card_cover_1.jpg" alt="Hero Image" className="w-full h-auto object-cover" />
 
       </div> */}
-      {/* <Stats/>
-      <DefaultDemo/> */}
-      <PortfolioGallery/>
-      <Example/>
+  <Stats/>
+      <DefaultDemo/> 
+      {/* <PortfolioGallery/> */}
+      {/* <Example/> */}
       <InteractiveImageBentoGalleryDemo/>
       {/* <BentoBox/> */}
       {/* <BentoStack/> */}
