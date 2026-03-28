@@ -22,6 +22,7 @@ import { PortfolioGallery } from "@/components/portfolio-gallery";
 import Example from "@/components/image-gallery";
 import InteractiveImageBentoGallery from "@/components/bento-gallery";
 import InteractiveImageBentoGalleryDemo from "@/components/Parralax/bento";
+import ScrollAnimationPage from "@/components/stats2/stats2";
 // import BentoBox from "@/components/BentoBox/bentobox";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -140,7 +141,8 @@ export default function Home() {
 
       </div> */}
   <Stats/>
-      <DefaultDemo/> 
+  <ScrollAnimationPage/>
+      {/* <DefaultDemo/>  */}
       {/* <PortfolioGallery/> */}
       {/* <Example/> */}
       <InteractiveImageBentoGalleryDemo/>

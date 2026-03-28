@@ -1,0 +1,158 @@
+/* Ensure the background stretches fully on ultra-wide monitors */
+.mainWrapper {
+  background-color: #141414;
+  color: #fff;
+  font-family: 'Google Sans', sans-serif;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.sectionTitle {
+  position: absolute;
+  top: 10%; 
+  left: 5%; 
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #fff;
+  z-index: 10;
+  margin: 0;
+  line-height: 1;
+  will-change: opacity; /* Optimizes the fade out */
+}
+
+.normalText {
+  font-size: clamp(1.5rem, 3vw, 2.5rem); 
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+/* DESKTOP LAYOUT */
+
+.projectImages {
+  position: absolute;
+  top: 0;
+  right: 5%; 
+  width: 40%; 
+  padding: 50svh 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: -1;
+  will-change: transform;
+}
+
+.mobileGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.projectImg {
+  width: 100%;
+  aspect-ratio: 16/9;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border-radius: 4px; 
+}
+
+.projectImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hidden on desktop */
+.mobileName {
+  display: none; 
+}
+
+.projectNames {
+  position: absolute;
+  left: 5%; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem; 
+}
+
+.projectNames p {
+  color: #4a4a4a;
+  transition: color 0.3s ease;
+  will-change: color;
+}
+
+.skipButton {
+  position: absolute;
+  left: 5%; 
+  bottom: 2rem; 
+  background: none;
+  border: none;
+  color: #4a4a4a;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  z-index: 10;
+  padding: 0;
+}
+
+.skipButton:hover {
+  color: #fff;
+}
+
+/* MOBILE LAYOUT */
+@media (max-width: 1000px) {
+  .sectionTitle {
+    top: 5%;
+    left: 2rem; 
+  }
+
+  .projectImages {
+    width: calc(100% - 4rem);
+    gap: 5rem; /* Keeps space between image/text clusters */
+    right: auto;           
+    left: 50%;             
+    transform: translateX(-50%);
+  }
+
+  /* Reveal text directly underneath the image */
+  .mobileName {
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #fff;
+    will-change: opacity;
+  }
+
+  /* Completely hide the desktop left-side list to prevent overlapping */
+  .projectNames {
+    display: none;
+  }
+
+  .skipButton {
+    left: 2rem; 
+  }
+}
