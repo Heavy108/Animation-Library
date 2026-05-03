@@ -146,11 +146,11 @@ export default function Home() {
       <PortfolioGallery/>
       {/* <Example/> */}
       <InteractiveImageBentoGalleryDemo/>
-      {/* <BentoBox/> */}
+      <BentoBox/>
       {/* <BentoStack/> */}
       {/* <WhatsHappeningCarousel slides={eventsData}/> */}
-      {/* <Redo />
-      <InkwellGallery /> */}
+      <Redo />
+      <InkwellGallery /> 
       {/* <Globe />
       <Timeline /> */}
       {/* <BentoSlider />
