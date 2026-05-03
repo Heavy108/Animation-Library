@@ -143,7 +143,7 @@ export default function Home() {
   <Stats/>
   <ScrollAnimationPage/>
       {/* <DefaultDemo/>  */}
-      {/* <PortfolioGallery/> */}
+      <PortfolioGallery/>
       {/* <Example/> */}
       <InteractiveImageBentoGalleryDemo/>
       {/* <BentoBox/> */}
